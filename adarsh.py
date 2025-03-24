@@ -31,6 +31,16 @@ class TriadHangman:
         player.total_attempts = total_attempts
         player.attempts_left = total_attempts
         player.current_state = ['_'] * len(player.word)
-
-    def display_state(player):
+  while True:
+                try:
+                    guess = input("Guess a letter: ").lower()
+                    if len(guess) != 1:
+                        raise ValueError("Please enter only one character.")
+                    if not guess.isalpha():
+                        raise ValueError("Please enter a letter from A-Z.")
+                    if guess in player.guessed_letters:
+                        raise ValueError("You've already guessed that letter.")
+                    break
+                except ValueError as e:
+                    print(f"Invalid input: {e}")
         

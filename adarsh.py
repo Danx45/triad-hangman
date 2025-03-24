@@ -25,9 +25,12 @@ class TriadHangman:
                  "spark plugs", "piston", "camshaft", "crankshaft", "valves", "clutch lever", "brake pads",
                  "disc brakes", "drum brakes", ]
 
-    def _init_(player, word_list, guessed_letters, total_attempts=6):
-        player.word = random.choice(word_list)
+    def _init_(player, word_list, total_attempts=6):
+        player.word = random.choice(player.word_list)
         player.guessed_letters = set()
         player.total_attempts = total_attempts
         player.attempts_left = total_attempts
         player.current_state = ['_'] * len(player.word)
+
+    def display_state(player):
+        

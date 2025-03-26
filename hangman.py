@@ -1,21 +1,49 @@
 import random
-class TriadHangman:
-    word_list = ["algorithms", "functions", "structures", "input", "output", "programming", "project", "colors", "animals", "food",
-    "water", "mcdonalds", "pizza", "snickers", "card", "watch", "doctors", "medicine", "machine", "cars",
-    "university", "tools", "messages", "preview", "music", "netflix", "mail", "settings", "calendar", "september",
-    "weather", "files", "history", "classes", "view", "representation", "dictionary", "narrow", "simplify", "element",
-    "language", "feedback", "design", "number", "script", "speaker", "success", "hosting", "computer", "engine", "tires", "brakes", 
-    "headlights", "steering", "gearbox", "accelerator", "clutch", "chassis", "suspension",
-    "exhaust", "fuel", "battery", "dashboard", "odometer", "speedometer", "radiator", "transmission", "carburetor",
-    "turbocharger", "alloy wheels", "spoiler", "hood", "trunk", "windshield", "mirrors", "seatbelt", "airbags",
-    "ignition", "cylinders", "horsepower", "torque", "drivetrain", "axle", "muffler", "catalytic converter", "ABS",
-    "traction control", "cruise control", "lane assist", "GPS", "bluetooth", "headlights", "taillights", "turn signals",
-    "motorcycle", "handlebars", "kickstand", "helmet", "gears", "throttle", "chain", "sprocket", "fork", "shock absorber",
-    "fairing", "footpegs", "fuel tank", "exhaust pipe", "rims", "tire pressure", "oil filter", "air filter", "coolant",
-    "spark plugs", "piston", "camshaft", "crankshaft", "valves", "clutch lever", "brake pads", "disc brakes", "drum brakes",]
-    def _init_(player, word_list, guessed_letters, total_attempts=6):
-        player.word = random.choice(word_list)
-        player.guessed_letters = set()
-        player.total_attempts = total_attempts
-        player.attempts_left = total_attempts
-        player.current_state = ['_'] * len(player.word)
+
+with open("easy.txt", 'r') as file:
+    words = file.read().splitlines() 
+    word = random.choice(words)
+        
+def hangman():
+     
+    attempts_left = 6
+    current_state = ['_'] * len(word)
+    guessed_letters = []
+
+    while '_' in current_state and attempts_left > 0:
+        print(f"\nCurrent word: {' '.join(current_state)}")
+        print(f"Incorrect guessed letters: {guessed_letters}")
+        print(f"Lives left: {attempts_left}")
+
+        try:
+            guess = input("Guess a letter: ").lower()
+            if len(guess) != 1:
+                raise ValueError("\nPlease enter only one character.")
+            if not guess.isalpha():
+                raise ValueError("\nPlease enter a letter from A-Z.")
+            if guess in guessed_letters:
+                raise ValueError("\nYou've already guessed that letter.")
+        except ValueError as e:
+            print(f"\nInvalid input: {e}")
+            continue
+
+        if guess not in word:
+            guessed_letters.append(guess)
+            attempts_left -= 1
+        else:
+            for index, letter in enumerate(list(word)):
+                if letter == guess:
+                    current_state[index] = guess
+
+        if attempts_left == 0:
+            print(f"\nYou've lost! Correct word was '{word}'.")
+        
+        if '_' not in current_state:
+            print(f'\nGood job! The word was "{word}"!')
+
+        
+
+
+
+if __name__ == '__main__':
+    hangman()

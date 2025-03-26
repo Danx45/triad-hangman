@@ -7,4 +7,3 @@ while True:
         if player.attempts_left == 0:
             print(f"You've lost! Correct word was '{player.word}'.")
             break
-    guess = input("Guess another letter: ")

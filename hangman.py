@@ -1,11 +1,31 @@
 import random
 
-with open("easy.txt", 'r') as file:
-    words = file.read().splitlines() 
-    word = random.choice(words)
+def choose_word():
+    while True:
+        difficulty = input("Select difficulty level (easy, medium, hard): ").lower()
+        if difficulty not in ['easy', 'medium', 'hard']:
+            print("Invalid input! Please choose 'easy', 'medium', or 'hard'.")
+            continue
+
+        try:
+            if difficulty == 'easy':
+                filename = "easy.txt"
+            elif difficulty == 'medium':
+                filename = "medium.txt"
+            elif difficulty == 'hard':
+                filename = "hard.txt"
+
+            with open(filename, 'r') as file:
+                words = file.read().splitlines()
+                return random.choice(words)
+
+        except FileNotFoundError:
+            print(f"Error! {filename} not found. Please make sure the file exists.")
+            return None
         
 def hangman():
      
+    word = choose_word()
     attempts_left = 6
     current_state = ['_'] * len(word)
     guessed_letters = []
@@ -21,7 +41,7 @@ def hangman():
                 raise ValueError("\nPlease enter only one character.")
             if not guess.isalpha():
                 raise ValueError("\nPlease enter a letter from A-Z.")
-            if guess in guessed_letters:
+            if guess in guessed_letters or guess in current_state:
                 raise ValueError("\nYou've already guessed that letter.")
         except ValueError as e:
             print(f"\nInvalid input: {e}")
